@@ -1,2 +1,21 @@
-# TacaGota
-A simple game developed with the pygame library.
+# Gôtcha! :syringe: :droplet: 
+
+#### Help Zé Gotinha to get rid of the coronavirus and the useless chloroquine to save Brazil from the pandemic!
+
+![output-onlinegiftools](https://user-images.githubusercontent.com/84260370/131886917-f358cc85-b9ba-4617-9a07-fcbea105ff32.gif)
+
+A simple game developed with the pygame library. The objective here was to learn how to make a game and try to contextualize it with the current situation (pandemic) we are facing right now. Hope you like it! :blush:
+
+---
+## And remember: :point_down:
+![man-got-vaccinated](https://user-images.githubusercontent.com/84260370/131877297-1ac4560d-ebf8-45a9-8aa9-d4974161744a.jpeg)
+<p style="color:blue;font-size:18px;">Photo: <a href="https://foto.wuestenigel.com/a-man-got-vaccinated/" target="_blank">A man got vaccinated</a> by <a href="https://linktr.ee/wuestenigel" target="_blank">Marco Verch</a> under <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank">Creative Commons 2.0</a></p>
+
+---
+Background music:
+Corona by Alexander Nakarada | https://www.serpentsoundstudios.com
+Music promoted by https://www.chosic.com/
+Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+All rights reserved.
