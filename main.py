@@ -1,4 +1,6 @@
+import time
 import pygame as pg
+from pygame import mixer
 import random
 from math import sqrt
 
@@ -10,6 +12,10 @@ screen = pg.display.set_mode((800, 600))
 
 # background
 background = pg.image.load('imagens/brasilia.jpg')
+
+# background music
+mixer.music.load('sons/background_music.mp3')
+mixer.music.play(-1)
 
 # title and icon
 pg.display.set_caption("Gôtcha!")
@@ -25,8 +31,8 @@ playerY_change = 0
 
 # seringa
 seringaImg = pg.image.load('imagens/seringa.png')
-seringaX = 70
-seringaY = 516
+seringaX = -50
+seringaY = -50
 seringaX_change = 1.5
 seringaY_change = 0  # a bala nao sobe!
 # ready: nao se ve a seringa na tela
@@ -51,10 +57,18 @@ font = pg.font.Font('freesansbold.ttf', 32)
 textX = 10
 textY = 10
 
+# Texto Game Over
+over_font = pg.font.Font('freesansbold.ttf', 64)
+
 
 def show_score(x, y):
     score = font.render(f"Score: {str(score_value)}", True, (255, 255, 255))
     screen.blit(score, (x, y))
+
+
+def game_over_text():
+    over_text = over_font.render(f"GAME OVER", True, (255, 255, 255))
+    screen.blit(over_text, (200, 250))
 
 
 def player(x, y):
@@ -89,6 +103,14 @@ def is_collision(cloroquina_x, cloroquina_y, seringa_x, seringa_y, corona_x, cor
     return matou_cloroq, matou_corona
 
 
+def is_gameover(player_x, player_y, corona_x, corona_y):
+    distancia_gameover = sqrt((player_x - corona_x) ** 2 + (player_y - corona_y) ** 2)
+    if distancia_gameover <= 48:
+        return True
+    else:
+        return False
+
+
 # game loop
 running = True
 while running:
@@ -118,6 +140,7 @@ while running:
                 playerY_change = 0.6
 
             if event.key == pg.K_SPACE and seringa_state == "ready":
+                mixer.Sound('sons/disparo_seringa.mp3').play()
                 seringaX, seringaY = playerX, playerY  # 1ª coord é no player
                 fire_seringa(seringaX, seringaY)
 
@@ -171,6 +194,7 @@ while running:
 
     # colisao com a cloroquina
     if collision[0]:
+        mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
         seringaX, seringaY = playerX, playerY  # retorna a origem
         score_value += 1
@@ -179,10 +203,19 @@ while running:
 
     # colisao com o coronavirus
     if collision[1]:
+        mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
         seringaX, seringaY = playerX, playerY  # retorna a origem
         score_value += 1
         coronavirusX = random.randint(790, 1250)
         coronavirusY = random.randint(64, 536)
 
+    # game over
+    game_over = is_gameover(playerX, playerY, coronavirusX, coronavirusY)
+
+    if game_over:
+        mixer.Sound('sons/oof.wav').play()
+        game_over_text()
+        running = False
     pg.display.update()
+time.sleep(2)
