@@ -1,10 +1,12 @@
 # Gôtcha! :syringe: :droplet: 
 
-#### Help Zé Gotinha to get rid of the coronavirus and the useless chloroquine to save Brazil from the pandemic!
+#### Help Zé Gotinha to get rid of the coronavirus and the useless chloroquine to save Brazil from the pandemic! :muscle:
 
 ![output-onlinegiftools](https://user-images.githubusercontent.com/84260370/131886917-f358cc85-b9ba-4617-9a07-fcbea105ff32.gif)
 
-A simple game developed with the pygame library. The objective here was to learn how to make a game and try to contextualize it with the current situation (pandemic) we are facing right now. Hope you like it! :blush:
+A simple game developed by [hitalojta](https://github.com/hitalojta) using Python and the pygame library. The objective here was to learn how to make a game and try to contextualize it with the current situation (pandemic) we are facing right now. Hope you like it! :blush:
+
+I will improve it over time, so, keep tuned for updates! :wink:
 
 ---
 
