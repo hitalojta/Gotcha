@@ -84,8 +84,8 @@ def coronavirus(x, y):
 
 
 def fire_seringa(x, y):
-    global seringa_state
-    seringa_state = "fire"
+    # global seringa_state
+    # seringa_state = "fire"
     screen.blit(seringaImg, (x + 60, y + 16))
 
 
@@ -121,7 +121,7 @@ while running:
     # background image
     screen.blit(background, (0, 0))
 
-    for event in pg.event.get():
+    for event in pg.event.get():  # eventos
 
         # para sair do loop (fechar o programa) quando clicar no 'X'
         if event.type == pg.QUIT:
@@ -142,13 +142,15 @@ while running:
             if event.key == pg.K_SPACE and seringa_state == "ready":
                 mixer.Sound('sons/disparo_seringa.mp3').play()
                 seringaX, seringaY = playerX, playerY  # 1ª coord é no player
+                seringa_state = "fire"
                 fire_seringa(seringaX, seringaY)
 
         # quando deixa de pressionar uma tecla, zera o acrescimo de movimento
         if event.type == pg.KEYUP:
-            if event.key == pg.K_LEFT or event.key == pg.K_RIGHT or \
-                    event.key == pg.K_UP or event.key == pg.K_DOWN:
+            if event.key == pg.K_LEFT or event.key == pg.K_RIGHT:
                 playerX_change = 0
+
+            if event.key == pg.K_UP or event.key == pg.K_DOWN:
                 playerY_change = 0
 
     # movimento inimigos
@@ -183,8 +185,10 @@ while running:
 
     # movimento da seringa
     if seringaX >= 800:
-        seringaX = 800
+        # seringaX = 800
         seringa_state = "ready"
+        seringaX = -50
+        seringaY = -50
     if seringa_state == "fire":
         fire_seringa(seringaX, seringaY)
         seringaX += seringaX_change
@@ -196,8 +200,8 @@ while running:
     if collision[0]:
         mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
-        seringaX, seringaY = playerX, playerY  # retorna a origem
-        score_value += 1
+        seringaX, seringaY = -100, -100  # vai pra longe
+        score_value += 0
         cloroquinaX = 1250
         cloroquinaY = random.randint(64, 536)
 
@@ -205,7 +209,7 @@ while running:
     if collision[1]:
         mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
-        seringaX, seringaY = playerX, playerY  # retorna a origem
+        seringaX, seringaY = -100, -100  # vai para longe
         score_value += 1
         coronavirusX = random.randint(790, 1250)
         coronavirusY = random.randint(64, 536)
