@@ -17,7 +17,7 @@ Don't let the virus or the chloroquine's boxes pass throught and avoid them!
 ---
 
 ## About:
-A simple game developed by [hitalojta](https://github.com/hitalojta) using Python and the pygame library. The objective here was to learn how to make a game and try to contextualize it with the current situation (pandemic) we are facing right now. Hope you like it! :blush:
+A simple game developed by me [hitalojta](https://github.com/hitalojta) using Python and the pygame library. The objective here was to learn how to make a game and try to contextualize it with the current situation (pandemic) we are facing right now. Hope you like it! :blush:
 
 I will improve it over time, so, keep tuned for updates! :wink:
 
