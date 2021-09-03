@@ -53,6 +53,7 @@ I will improve it over time, so, keep tuned for updates! :wink:
 
 ---
 ---
+---
 ## Lembre-se / Remember: :point_down:
 
 ![man-got-vaccinated](https://user-images.githubusercontent.com/84260370/131877297-1ac4560d-ebf8-45a9-8aa9-d4974161744a.jpeg)
