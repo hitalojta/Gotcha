@@ -1,4 +1,6 @@
-# Gôtcha! :droplet: 
+# Gôtcha! :droplet:
+
+![readme](https://user-images.githubusercontent.com/84260370/132069612-80809280-7054-46f8-ae69-6be81510f27b.png)
 
 #### Ajude o Zé Gotinha a nos livrar do coronavírus! :muscle:
 
