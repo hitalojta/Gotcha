@@ -1,8 +1,8 @@
 # Gôtcha! :droplet: 
 
-#### Help Zé Gotinha to get rid of the coronavirus and the useless chloroquine! :muscle:
+#### Help Zé Gotinha to get rid of the coronavirus! :muscle:
 
-Don't let the virus or the chloroquine's boxes pass throught and avoid them!
+Don't let the virus or the chloroquine's boxes pass throught and avoid them! Get all the Pfizer letters that offer millions of vaccines to get the entire population immunized!
 
 :microscope: :syringe: Let's save Brazil from the pandemic with science and vaccines! :syringe: :microscope:
 
