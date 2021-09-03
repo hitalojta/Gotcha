@@ -5,17 +5,17 @@ import random
 from math import sqrt
 
 # initialize the pygame
-
 pg.init()
 
 screen = pg.display.set_mode((800, 600))
 
 # background
-background = pg.image.load('imagens/brasilia.jpg')
+background = pg.image.load('imagens/brasilia2.jpg')
 
 # background music
 mixer.music.load('sons/background_music.mp3')
-mixer.music.play(-1)
+mixer.music.set_volume(0.5)
+mixer.music.play(-1)  # o -1 faz tocar em loop
 
 # title and icon
 pg.display.set_caption("Gôtcha!")
@@ -34,28 +34,40 @@ seringaImg = pg.image.load('imagens/seringa.png')
 seringaX = -50
 seringaY = -50
 seringaX_change = 1.5
-seringaY_change = 0  # a bala nao sobe!
-# ready: nao se ve a seringa na tela
-# fire: a seringa esta se movendo
-seringa_state = "ready"
+seringa_state = "ready"  # 'ready': nao se ve a seringa na tela / 'fire': a seringa esta se movendo
 
 # Cloroquina
 cloroquinaImg = pg.image.load('imagens/cloroquina.png')
 cloroquinaX = 1500
-cloroquinaY = random.randint(64, 536)
-cloroquinaX_change = -0.3  # anda constantemente
+cloroquinaY = random.randint(52, 536)
+cloroquinaX_change = -0.4  # anda constantemente
 
 # coronavirus
 coronavirusImg = pg.image.load('imagens/coronavirus.png')
-coronavirusX = 790
-coronavirusY = random.randint(64, 536)
-coronavirusX_change = -0.3  # anda constantemente
+coronavirusX = 1300
+coronavirusY = random.randint(52, 536)
+coronavirusX_change = -0.5
 
-# Pontuacao
-score_value = 0
-font = pg.font.Font('freesansbold.ttf', 32)
+# carta pfizer
+pfizerImg = pg.image.load('imagens/carta-pfizer.png')
+pfizerX = 1600
+pfizerY = random.randint(52, 536)
+pfizerX_change = -0.3
+
+# Scores positions
 textX = 10
 textY = 10
+# Score
+score_value = 0
+font = pg.font.Font('freesansbold.ttf', 32)
+
+# Virus and chloroquine passed count
+count_miss_virus = 0
+passed_font = pg.font.Font('freesansbold.ttf', 14)
+count_chloroquine = 0
+count_miss_chloroquine = 0
+count_letters = 0
+count_missed_letters = 0
 
 # Texto Game Over
 over_font = pg.font.Font('freesansbold.ttf', 64)
@@ -63,7 +75,14 @@ over_font = pg.font.Font('freesansbold.ttf', 64)
 
 def show_score(x, y):
     score = font.render(f"Score: {str(score_value)}", True, (255, 255, 255))
+    virus_pass = passed_font.render(f"Vírus passados: {str(count_miss_virus)}", True, (204, 204, 0))
+    letter_pass = passed_font.render(f"Cartas perdidas: {str(count_missed_letters)}", True, (204, 204, 0))
+    chloroquine_pass = passed_font.render(f"Caixas passadas: {str(count_miss_chloroquine)}", True,
+                                          (204, 204, 0))
     screen.blit(score, (x, y))
+    screen.blit(virus_pass, (x + 150, y))
+    screen.blit(letter_pass, (x + 300, y))
+    screen.blit(chloroquine_pass, (x + 450, y))
 
 
 def game_over_text():
@@ -83,15 +102,22 @@ def coronavirus(x, y):
     screen.blit(coronavirusImg, (x, y))
 
 
+def pfizer(x, y):
+    screen.blit(pfizerImg, (x, y))
+
+
 def fire_seringa(x, y):
-    # global seringa_state
-    # seringa_state = "fire"
     screen.blit(seringaImg, (x + 60, y + 16))
 
 
-def is_collision(cloroquina_x, cloroquina_y, seringa_x, seringa_y, corona_x, corona_y):
+def is_collision(cloroquina_x, cloroquina_y, seringa_x, seringa_y,
+                 corona_x, corona_y, pfizer_x, pfizer_y, player_x, player_y):
     distancia_cloroq = sqrt((cloroquina_x - seringa_x) ** 2 + (cloroquina_y - seringa_y) ** 2)
     distancia_corona = sqrt((corona_x - seringa_x) ** 2 + (corona_y - seringa_y) ** 2)
+    distancia_pfizer = sqrt((pfizer_x - seringa_x) ** 2 + (pfizer_y - seringa_y) ** 2)
+    dist_player_pfizer = sqrt((pfizer_x - player_x) ** 2 + (pfizer_y - player_y) ** 2)
+    dist_player_chloroq = sqrt((cloroquina_x - player_x) ** 2 + (cloroquina_y - player_y) ** 2)
+
     if distancia_cloroq <= 27:
         matou_cloroq = True
     else:
@@ -100,12 +126,30 @@ def is_collision(cloroquina_x, cloroquina_y, seringa_x, seringa_y, corona_x, cor
         matou_corona = True
     else:
         matou_corona = False
-    return matou_cloroq, matou_corona
+    if distancia_pfizer <= 27:
+        matou_pfizer = True
+    else:
+        matou_pfizer = False
+    if dist_player_pfizer <= 48:
+        pegou_pfizer = True
+    else:
+        pegou_pfizer = False
+    if dist_player_chloroq <= 48:
+        pegou_cloroq = True
+    else:
+        pegou_cloroq = False
+
+    return matou_cloroq, matou_corona, matou_pfizer, pegou_pfizer, pegou_cloroq
+
+
+def end_game():
+    over_text = over_font.render(f"FIM DE JOGO!", True, (255, 255, 255))
+    screen.blit(over_text, (200, 250))
 
 
 def is_gameover(player_x, player_y, corona_x, corona_y):
-    distancia_gameover = sqrt((player_x - corona_x) ** 2 + (player_y - corona_y) ** 2)
-    if distancia_gameover <= 48:
+    dist_gameover_corona = sqrt((player_x - corona_x) ** 2 + (player_y - corona_y) ** 2)
+    if dist_gameover_corona <= 48:
         return True
     else:
         return False
@@ -153,34 +197,42 @@ while running:
             if event.key == pg.K_UP or event.key == pg.K_DOWN:
                 playerY_change = 0
 
-    # movimento inimigos
+    # movimento objetos
     cloroquinaX += cloroquinaX_change  # constante!
     coronavirusX += coronavirusX_change
-    # não deixa a caixa de cloroquina ir ao infinito e além
+    pfizerX += pfizerX_change
+    # não deixa ir ao infinito e além
     if cloroquinaX <= -60:
+        count_miss_chloroquine += 1
         cloroquinaX = 1250
-        cloroquinaY = random.randint(64, 536)
+        cloroquinaY = random.randint(52, 536)
     if coronavirusX <= -60:
+        count_miss_virus += 1
         coronavirusX = 790
-        coronavirusY = random.randint(64, 536)
+        coronavirusY = random.randint(52, 536)
+    if pfizerX <= -60:
+        count_missed_letters += 1
+        pfizerX = 1000
+        pfizerY = random.randint(52, 536)
 
     # movimento jogador
     playerX += playerX_change
     playerY += playerY_change
     # não deixa o jogador passar das bordas
     if playerX <= 0:
-        playerX = 0
+        playerX = 1
     elif playerX >= 736:
-        playerX = 736
+        playerX = 734
     if playerY >= 536:
-        playerY = 536
-    elif playerY <= 0:
-        playerY = 0
+        playerY = 535
+    elif playerY <= 52:
+        playerY = 53
 
     # mostra elementos do jogo
     player(playerX, playerY)
     cloroquina(cloroquinaX, cloroquinaY)
     coronavirus(coronavirusX, coronavirusY)
+    pfizer(pfizerX, pfizerY)
     show_score(textX, textY)
 
     # movimento da seringa
@@ -194,16 +246,17 @@ while running:
         seringaX += seringaX_change
 
     # colisão
-    collision = is_collision(cloroquinaX, cloroquinaY, seringaX, seringaY, coronavirusX, coronavirusY)
+    collision = is_collision(cloroquinaX, cloroquinaY, seringaX, seringaY,
+                             coronavirusX, coronavirusY, pfizerX, pfizerY, playerX, playerY)
 
     # colisao com a cloroquina
     if collision[0]:
         mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
         seringaX, seringaY = -100, -100  # vai pra longe
-        score_value += 0
+        score_value += 1
         cloroquinaX = 1250
-        cloroquinaY = random.randint(64, 536)
+        cloroquinaY = random.randint(52, 536)
 
     # colisao com o coronavirus
     if collision[1]:
@@ -212,14 +265,55 @@ while running:
         seringaX, seringaY = -100, -100  # vai para longe
         score_value += 1
         coronavirusX = random.randint(790, 1250)
-        coronavirusY = random.randint(64, 536)
+        coronavirusY = random.randint(52, 536)
+
+    # colisao com a carta pfizer
+    if collision[2]:
+        count_missed_letters += 1
+        mixer.Sound('sons/estouro.mp3').play()
+        seringa_state = "ready"
+        seringaX, seringaY = -100, -100  # vai para longe
+        pfizerX = random.randint(1000, 1300)
+        pfizerY = random.randint(52, 536)
+
+    # pegou carta pfizer
+    if collision[3]:
+        count_letters += 1
+        which_sound = str(random.randint(0, 9))
+        if which_sound in '01234567':
+            mixer.Sound('sons/pick_letter.wav').play()
+        elif which_sound in '8':
+            mixer.Sound('sons/pfizer.mp3').play()
+        else:
+            mixer.Sound('sons/pfizer ta passada.mp3').play()
+        pfizerX = random.randint(1500, 2000)
+        pfizerY = random.randint(52, 536)
+
+    if collision[4]:
+        count_chloroquine += 1
+        mixer.Sound('sons/pegou_cloroquina.wav').play()
+        cloroquinaX = random.randint(1500, 2000)
+        cloroquinaY = random.randint(52, 536)
 
     # game over
     game_over = is_gameover(playerX, playerY, coronavirusX, coronavirusY)
 
     if game_over:
+        pg.mixer.music.stop()
         mixer.Sound('sons/oof.wav').play()
         game_over_text()
-        running = False
-    pg.display.update()
-time.sleep(2)
+        pg.display.update()
+        time.sleep(.5)
+        mixer.Sound('sons/bozo_riso.mp3').play()
+        pg.time.delay(3000)
+        break  # sai do loop
+
+    # FAZER OS FINAIS ALTERNATIVOS ##########
+    if count_miss_chloroquine + count_miss_virus + count_missed_letters == 0 and count_letters >= 10:
+        pg.mixer.music.stop()
+        end_game()
+        pg.display.update()
+        pg.time.delay(2000)
+        break
+    elif count_miss_chloroquine + count_miss_virus + count_missed_letters == 0 and count_letters >= 5:
+    pg.display.update()  # atualiza o frame
