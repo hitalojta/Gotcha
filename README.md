@@ -1,10 +1,10 @@
 # Gôtcha! :droplet:
 
-![readme](https://user-images.githubusercontent.com/84260370/132069612-80809280-7054-46f8-ae69-6be81510f27b.png)
+![readme](https://user-images.githubusercontent.com/84260370/132084190-ba9e0d36-57ae-4cd8-b73e-a0632112d48b.png)
 
 #### Ajude o Zé Gotinha a nos livrar do coronavírus! :muscle:
 
-Evite os coronavírus e as caixas de cloroquina e as destrua! Pegue todas as cartas da Pfizer que oferecem milhões de doses de vacinas para conseguir imunizar toda a população!
+Evite os coronavírus e as caixas de cloroquina e as destrua! Pegue as cartas da Pfizer que oferecem milhões de doses de vacinas para conseguir imunizar toda a população!
 
 :microscope: :syringe: Vamos salvar o Brasil da pandemia com ciência e vacinas! :syringe: :microscope:
 
@@ -32,7 +32,7 @@ Eu vou melhorá-lo com o passar do tempo, então, fique ligado sobre novos updat
 
 #### Help Zé Gotinha to get us rid of the coronavirus! :muscle:
 
-Avoid the coronaviruses and the chloroquine boxes and destroy them! Get all the Pfizer letters that offer millions of vaccines doses to get the entire population immunized!
+Avoid the coronaviruses and the chloroquine boxes and destroy them! Get the Pfizer letters that offer millions of vaccines doses to get the entire population immunized!
 
 :microscope: :syringe: Let's save Brazil from the pandemic with science and vaccines! :syringe: :microscope:
 
