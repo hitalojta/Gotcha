@@ -8,8 +8,12 @@ pg.init()
 
 screen = pg.display.set_mode((800, 600))
 
-# background
+# background jogo
 background = pg.image.load('imagens/brasilia2.jpg')
+
+# menu do jogo
+menu_image = pg.image.load('imagens/menu.jpeg')
+menu_arrow = pg.image.load('imagens/menu_seta.png')
 
 # imagens auxiliares
 quadro_fundo = pg.image.load('imagens/quadro_fundo.jpg')
@@ -20,11 +24,6 @@ coracao3 = pg.image.load('imagens/coracao.png')
 # Ze gotinha
 gotinha = pg.image.load('imagens/ze-gota.png')
 you_tried = pg.image.load('imagens/at_least.jpg')
-
-# background music
-mixer.music.load('sons/background_music.mp3')
-mixer.music.set_volume(0.1)
-mixer.music.play(-1)  # o -1 faz tocar em loop
 
 # title and icon
 pg.display.set_caption("Gôtcha!")
@@ -81,6 +80,10 @@ count_missed_letters = 0
 # Texts Game Over
 big_over_font = pg.font.Font('freesansbold.ttf', 64)
 small_over_font = pg.font.Font('freesansbold.ttf', 16)
+
+
+def seta_menu(x, y):
+    screen.blit(menu_arrow, (x, y))
 
 
 def hearts(x, y):
@@ -217,9 +220,74 @@ def is_gameover(player_x, player_y, corona_x, corona_y):
         return False
 
 
-# game loop
+# background menu music
+mixer.music.load('sons/menu_music.mp3')
+mixer.music.set_volume(0.1)
+mixer.music.play(-1)  # o -1 faz tocar em loop
+
+# menu arrow Y
+arrow_Y = 0
+
+# menu inicial
+exit_game = False
+menu = True
+while menu:
+    screen.fill((255, 255, 255))
+    screen.blit(menu_image, (0, 0))
+
+    if arrow_Y == 0:
+        seta_menu(230, 297)  # começar
+    if arrow_Y == 1:
+        seta_menu(285, 393)  # creditos
+    if arrow_Y == 2:
+        seta_menu(320, 490)  # sair
+
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            menu = False
+            exit_game = True
+
+        if event.type == pg.KEYDOWN:
+
+            if event.key == pg.K_UP:
+                mixer.Sound('sons/click_menu.wav').play()
+                arrow_Y += -1
+            if event.key == pg.K_DOWN:
+                mixer.Sound('sons/click_menu.wav').play()
+                arrow_Y += 1
+            if event.key == pg.K_KP_ENTER or event.key == pg.K_RETURN:
+                if arrow_Y == 0:
+                    mixer.Sound('sons/game_init.wav').play()
+                    pg.time.delay(2000)
+                    menu = False
+                if arrow_Y == 1:
+                    mixer.Sound('sons/sair_creditos.wav').play()
+                    pg.time.delay(1000)
+                if arrow_Y == 2:
+                    mixer.Sound('sons/sair_creditos.wav').play()
+                    pg.time.delay(1000)
+                    menu = False
+                    exit_game = True
+
+    # limita a seta
+    if arrow_Y >= 2:
+        arrow_Y = 2
+    if arrow_Y <= 0:
+        arrow_Y = 0
+
+    pg.display.update()
+
+# background game music
+mixer.music.load('sons/background_music.mp3')
+mixer.music.set_volume(0.1)
+mixer.music.play(-1)  # o -1 faz tocar em loop
+
+# game inicia
 running = True
 while running:
+
+    if exit_game:
+        break
 
     # RGB
     screen.fill((0, 0, 128))
