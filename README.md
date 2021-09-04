@@ -54,13 +54,3 @@ I will improve it over time, so, keep tuned for updates! :wink:
 ---
 
 ![vacinese](https://user-images.githubusercontent.com/84260370/132105874-c130be2d-920c-49f7-92cb-c099c360bc47.png)
-
----
-
-In-game background music:
-Corona by Alexander Nakarada | https://www.serpentsoundstudios.com
-Music promoted by https://www.chosic.com/
-Attribution 4.0 International (CC BY 4.0)
-https://creativecommons.org/licenses/by/4.0/
-
-Todos os direitos reservados / All rights reserved.
