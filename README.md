@@ -4,7 +4,7 @@
 
 #### Ajude o Zé Gotinha a nos livrar do coronavírus! :muscle:
 
-Evite os coronavírus e as caixas de cloroquina e as destrua! Pegue as cartas da Pfizer que oferecem milhões de doses de vacinas para conseguir imunizar toda a população!
+Evite e elimine os coronavírus e as caixas de cloroquina! Pegue as cartas da Pfizer que oferecem milhões de doses de vacinas para conseguir imunizar toda a população!
 
 :microscope: :syringe: Vamos salvar o Brasil da pandemia com ciência e vacinas! :syringe: :microscope:
 
@@ -32,7 +32,7 @@ Eu vou melhorá-lo com o passar do tempo, então, fique ligado sobre novos updat
 
 #### Help Zé Gotinha to get us rid of the coronavirus! :muscle:
 
-Avoid the coronaviruses and the chloroquine boxes and destroy them! Get the Pfizer letters that offer millions of vaccines doses to get the entire population immunized!
+Avoid and eliminate the coronaviruses and the chloroquine boxes! Get the Pfizer letters that offer millions of vaccines doses to get the entire population immunized!
 
 :microscope: :syringe: Let's save Brazil from the pandemic with science and vaccines! :syringe: :microscope:
 
