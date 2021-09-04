@@ -1,4 +1,3 @@
-import time
 import pygame as pg
 from pygame import mixer
 import random
@@ -12,9 +11,19 @@ screen = pg.display.set_mode((800, 600))
 # background
 background = pg.image.load('imagens/brasilia2.jpg')
 
+# imagens auxiliares
+quadro_fundo = pg.image.load('imagens/quadro_fundo.jpg')
+coracao = pg.image.load('imagens/coracao.png')
+coracao2 = pg.image.load('imagens/coracao.png')
+coracao3 = pg.image.load('imagens/coracao.png')
+
+# Ze gotinha
+gotinha = pg.image.load('imagens/ze-gota.png')
+you_tried = pg.image.load('imagens/at_least.jpg')
+
 # background music
 mixer.music.load('sons/background_music.mp3')
-mixer.music.set_volume(0.5)
+mixer.music.set_volume(0.1)
 mixer.music.play(-1)  # o -1 faz tocar em loop
 
 # title and icon
@@ -69,24 +78,36 @@ count_miss_chloroquine = 0
 count_letters = 0
 count_missed_letters = 0
 
-# Texto Game Over
-over_font = pg.font.Font('freesansbold.ttf', 64)
+# Texts Game Over
+big_over_font = pg.font.Font('freesansbold.ttf', 64)
+small_over_font = pg.font.Font('freesansbold.ttf', 16)
+
+
+def hearts(x, y):
+    if count_chloroquine <= 0:
+        screen.blit(coracao, (x + 700, y + 5))
+    if count_chloroquine <= 1:
+        screen.blit(coracao2, (x + 730, y + 5))
+    if count_chloroquine <= 2:
+        screen.blit(coracao3, (x + 760, y + 5))
 
 
 def show_score(x, y):
     score = font.render(f"Score: {str(score_value)}", True, (255, 255, 255))
     virus_pass = passed_font.render(f"Vírus passados: {str(count_miss_virus)}", True, (204, 204, 0))
     letter_pass = passed_font.render(f"Cartas perdidas: {str(count_missed_letters)}", True, (204, 204, 0))
+    letter_get = passed_font.render(f"Cartas adquiridas: {str(count_letters)}", True, (0, 204, 0))
     chloroquine_pass = passed_font.render(f"Caixas passadas: {str(count_miss_chloroquine)}", True,
                                           (204, 204, 0))
     screen.blit(score, (x, y))
-    screen.blit(virus_pass, (x + 150, y))
-    screen.blit(letter_pass, (x + 300, y))
-    screen.blit(chloroquine_pass, (x + 450, y))
+    screen.blit(virus_pass, (x + 320, y))
+    screen.blit(letter_pass, (x + 150, y))
+    screen.blit(letter_get, (x + 150, y + 20))
+    screen.blit(chloroquine_pass, (x + 320, y + 20))
 
 
 def game_over_text():
-    over_text = over_font.render(f"GAME OVER", True, (255, 255, 255))
+    over_text = big_over_font.render(f"GAME OVER", True, (255, 255, 255))
     screen.blit(over_text, (200, 250))
 
 
@@ -142,9 +163,50 @@ def is_collision(cloroquina_x, cloroquina_y, seringa_x, seringa_y,
     return matou_cloroq, matou_corona, matou_pfizer, pegou_pfizer, pegou_cloroq
 
 
-def end_game():
-    over_text = over_font.render(f"FIM DE JOGO!", True, (255, 255, 255))
-    screen.blit(over_text, (200, 250))
+def best_end_game():
+    main_text = big_over_font.render(f"PARABÉNS!", True, (255, 255, 255))
+    small_text = small_over_font.render(f"10 cartas da Pfizer obtidas!"
+                                        f" Imunização da população garantida!", True, (255, 255, 255))
+    small_text2 = small_over_font.render(f"Nenhum coronavírus ou caixa de cloroquina foi deixado pra trás!"
+                                         f"", True, (255, 255, 255))
+    small_text3 = small_over_font.render(f"Muitas vidas foram salvas!", True, (255, 255, 255))
+    screen.blit(quadro_fundo, (100, 100))
+    screen.blit(gotinha, (370, 210))
+    screen.blit(main_text, (200, 120))
+    screen.blit(small_text, (150, 375))
+    screen.blit(small_text2, (150, 400))
+    screen.blit(small_text3, (300, 425))
+
+
+def cloroq_end_game():
+    main_text = big_over_font.render(f"PARABÉNS!", True, (255, 255, 255))
+    small_text = small_over_font.render(f"Todas as 10 cartas da Pfizer obtidas!"
+                                        f" Imunização da população garantida!", True, (255, 255, 255))
+    small_text2 = small_over_font.render(f"Nenhum coronavírus ou caixa de pacote foi deixado pra trás!"
+                                         f"", True, (255, 255, 255))
+    small_text3 = small_over_font.render(f"Muitas vidas foram salvas!", True, (255, 255, 255))
+    screen.blit(quadro_fundo, (100, 100))
+    screen.blit(gotinha, (370, 190))
+    screen.blit(main_text, (200, 120))
+    screen.blit(small_text, (110, 325))
+    screen.blit(small_text2, (110, 350))
+    screen.blit(small_text3, (110, 375))
+
+
+def medium_end_game():
+    main_text = big_over_font.render(f"Muito bem!", True, (255, 255, 255))
+    small_text = small_over_font.render(f"10 cartas da Pfizer obtidas!"
+                                        f" Imunização da população garantida!", True, (255, 255, 255))
+    small_text2 = small_over_font.render(f"Porém, alguns coronavírus e/ou caixas de cloroquina passaram :("
+                                         f"", True, (255, 255, 0))
+    small_text3 = small_over_font.render(f"Se esforce mais e tente eliminar todos na próxima. Você consegue!", True,
+                                         (255, 255, 255))
+    screen.blit(quadro_fundo, (100, 100))
+    screen.blit(you_tried, (325, 200))
+    screen.blit(main_text, (220, 120))
+    screen.blit(small_text, (150, 375))
+    screen.blit(small_text2, (140, 400))
+    screen.blit(small_text3, (135, 425))
 
 
 def is_gameover(player_x, player_y, corona_x, corona_y):
@@ -249,7 +311,7 @@ while running:
     collision = is_collision(cloroquinaX, cloroquinaY, seringaX, seringaY,
                              coronavirusX, coronavirusY, pfizerX, pfizerY, playerX, playerY)
 
-    # colisao com a cloroquina
+    # atirou na cloroquina
     if collision[0]:
         mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
@@ -258,7 +320,7 @@ while running:
         cloroquinaX = 1250
         cloroquinaY = random.randint(52, 536)
 
-    # colisao com o coronavirus
+    # atirou no coronavirus
     if collision[1]:
         mixer.Sound('sons/estouro.mp3').play()
         seringa_state = "ready"
@@ -267,7 +329,7 @@ while running:
         coronavirusX = random.randint(790, 1250)
         coronavirusY = random.randint(52, 536)
 
-    # colisao com a carta pfizer
+    # atirou na carta pfizer
     if collision[2]:
         count_missed_letters += 1
         mixer.Sound('sons/estouro.mp3').play()
@@ -280,40 +342,63 @@ while running:
     if collision[3]:
         count_letters += 1
         which_sound = str(random.randint(0, 9))
-        if which_sound in '01234567':
+        if which_sound in '0123456':
             mixer.Sound('sons/pick_letter.wav').play()
-        elif which_sound in '8':
+        elif which_sound in '78':
             mixer.Sound('sons/pfizer.mp3').play()
         else:
             mixer.Sound('sons/pfizer ta passada.mp3').play()
         pfizerX = random.randint(1500, 2000)
         pfizerY = random.randint(52, 536)
 
+    # pegou a cloroquina
     if collision[4]:
         count_chloroquine += 1
         mixer.Sound('sons/pegou_cloroquina.wav').play()
         cloroquinaX = random.randint(1500, 2000)
         cloroquinaY = random.randint(52, 536)
 
-    # game over
-    game_over = is_gameover(playerX, playerY, coronavirusX, coronavirusY)
+    hearts(textX, textY)  # remove vidas
 
+    # Ze Gotinha pega coronavirus. Game Over.
+    game_over = is_gameover(playerX, playerY, coronavirusX, coronavirusY)
     if game_over:
         pg.mixer.music.stop()
         mixer.Sound('sons/oof.wav').play()
         game_over_text()
         pg.display.update()
-        time.sleep(.5)
-        mixer.Sound('sons/bozo_riso.mp3').play()
+        pg.time.delay(500)
+        mixer.Sound('sons/espirro_mascara.wav').play()
         pg.time.delay(3000)
-        break  # sai do loop
-
-    # FAZER OS FINAIS ALTERNATIVOS ##########
-    if count_miss_chloroquine + count_miss_virus + count_missed_letters == 0 and count_letters >= 10:
-        pg.mixer.music.stop()
-        end_game()
-        pg.display.update()
-        pg.time.delay(2000)
         break
-    elif count_miss_chloroquine + count_miss_virus + count_missed_letters == 0 and count_letters >= 5:
+
+    # 10 cartas coletadas, sem deixar nada passar
+    if count_miss_chloroquine + count_miss_virus + \
+            count_missed_letters == 0 and count_letters >= 10:
+        pg.mixer.music.stop()
+        mixer.Sound('sons/palmas.wav').play()
+        best_end_game()
+        pg.display.update()
+        pg.time.delay(8000)
+        break
+
+    # 3 caixas de cloroquina coletadas, Zé Gotinha adquire hepatite medicamentosa.
+    if count_chloroquine == 3:
+        pg.mixer.music.stop()
+        game_over_text()
+        pg.display.update()
+        pg.time.delay(500)  # delay do dano
+        mixer.Sound('sons/cloroquinado.wav').play()
+        pg.time.delay(8000)
+        break
+
+    # 10 cartas coletadas, passam virus e/ou caixas.
+    if count_miss_chloroquine + count_miss_virus != 0 and count_letters >= 10:
+        pg.mixer.music.stop()
+        mixer.Sound('sons/yay.wav').play()
+        medium_end_game()
+        pg.display.update()
+        pg.time.delay(8000)
+        break
+
     pg.display.update()  # atualiza o frame
