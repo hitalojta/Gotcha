@@ -14,6 +14,7 @@ background = pg.image.load('imagens/brasilia2.jpg')
 # menu do jogo
 menu_image = pg.image.load('imagens/menu.jpeg')
 menu_arrow = pg.image.load('imagens/menu_seta.png')
+menu_credits = pg.image.load('imagens/creditos.jpeg')
 
 # imagens auxiliares
 quadro_fundo = pg.image.load('imagens/quadro_fundo.jpg')
@@ -32,54 +33,67 @@ pg.display.set_icon(icon)
 
 # Player
 playerImg = pg.image.load('imagens/jogador.png')
-playerX = 10
-playerY = 500
-playerX_change = 0
-playerY_change = 0
 
 # seringa
 seringaImg = pg.image.load('imagens/seringa.png')
-seringaX = -50
-seringaY = -50
-seringaX_change = 1.5
-seringa_state = "ready"  # 'ready': nao se ve a seringa na tela / 'fire': a seringa esta se movendo
 
 # Cloroquina
 cloroquinaImg = pg.image.load('imagens/cloroquina.png')
-cloroquinaX = 1500
-cloroquinaY = random.randint(52, 536)
-cloroquinaX_change = -0.4  # anda constantemente
 
 # coronavirus
 coronavirusImg = pg.image.load('imagens/coronavirus.png')
-coronavirusX = 1300
-coronavirusY = random.randint(52, 536)
-coronavirusX_change = -0.5
 
 # carta pfizer
 pfizerImg = pg.image.load('imagens/carta-pfizer.png')
-pfizerX = 1600
-pfizerY = random.randint(52, 536)
-pfizerX_change = -0.3
 
-# Scores positions
+# Score
 textX = 10
 textY = 10
-# Score
-score_value = 0
 font = pg.font.Font('freesansbold.ttf', 32)
 
 # Virus and chloroquine passed count
-count_miss_virus = 0
 passed_font = pg.font.Font('freesansbold.ttf', 14)
-count_chloroquine = 0
-count_miss_chloroquine = 0
-count_letters = 0
-count_missed_letters = 0
 
 # Texts Game Over
 big_over_font = pg.font.Font('freesansbold.ttf', 64)
 small_over_font = pg.font.Font('freesansbold.ttf', 16)
+
+
+def new_game():
+    global playerX, playerY, playerX_change, playerY_change, seringaX, seringaY, seringaX_change, seringa_state
+    global cloroquinaX, cloroquinaY, cloroquinaX_change, coronavirusX, coronavirusY, coronavirusX_change, pfizerX
+    global pfizerY, pfizerX_change, score_value, count_miss_virus, count_chloroquine, count_miss_chloroquine
+    global count_letters, count_missed_letters
+
+    playerX = 10
+    playerY = 500
+    playerX_change = 0
+    playerY_change = 0
+
+    seringaX = -50
+    seringaY = -50
+    seringaX_change = 1.5
+    seringa_state = "ready"  # 'ready': nao se ve a seringa na tela / 'fire': a seringa esta se movendo
+
+    cloroquinaX = 1500
+    cloroquinaY = random.randint(52, 536)
+    cloroquinaX_change = -0.4  # anda constantemente
+
+    coronavirusX = 1300
+    coronavirusY = random.randint(52, 536)
+    coronavirusX_change = -0.5
+
+    pfizerX = 1600
+    pfizerY = random.randint(52, 536)
+    pfizerX_change = -0.3
+
+    score_value = 0
+
+    count_miss_virus = 0
+    count_chloroquine = 0
+    count_miss_chloroquine = 0
+    count_letters = 0
+    count_missed_letters = 0
 
 
 def seta_menu(x, y):
@@ -220,253 +234,274 @@ def is_gameover(player_x, player_y, corona_x, corona_y):
         return False
 
 
-# background menu music
-mixer.music.load('sons/menu_music.mp3')
-mixer.music.set_volume(0.1)
-mixer.music.play(-1)  # o -1 faz tocar em loop
-
 # menu arrow Y
 arrow_Y = 0
 
-# menu inicial
-exit_game = False
-menu = True
-while menu:
-    screen.fill((255, 255, 255))
-    screen.blit(menu_image, (0, 0))
+game_run = True
+while game_run:
+    new_game()  # novo jogo, reseta tudo
 
-    if arrow_Y == 0:
-        seta_menu(230, 297)  # começar
-    if arrow_Y == 1:
-        seta_menu(285, 393)  # creditos
-    if arrow_Y == 2:
-        seta_menu(320, 490)  # sair
+    # background menu music
+    mixer.music.load('sons/menu_music.mp3')
+    mixer.music.set_volume(0.1)
+    mixer.music.play(-1)  # o -1 faz tocar em loop
 
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            menu = False
-            exit_game = True
+    # menu inicial
+    exit_game = False
+    menu = True
+    show_credits = False
+    while menu:
+        screen.fill((255, 255, 255))
+        screen.blit(menu_image, (0, 0))
 
-        if event.type == pg.KEYDOWN:
+        if arrow_Y == 0:
+            seta_menu(230, 297)  # começar
+        if arrow_Y == 1:
+            seta_menu(285, 393)  # creditos
+        if arrow_Y == 2:
+            seta_menu(320, 490)  # sair
 
-            if event.key == pg.K_UP:
-                mixer.Sound('sons/click_menu.wav').play()
-                arrow_Y += -1
-            if event.key == pg.K_DOWN:
-                mixer.Sound('sons/click_menu.wav').play()
-                arrow_Y += 1
-            if event.key == pg.K_KP_ENTER or event.key == pg.K_RETURN:
-                if arrow_Y == 0:
-                    mixer.Sound('sons/game_init.wav').play()
-                    pg.time.delay(2000)
-                    menu = False
-                if arrow_Y == 1:
-                    mixer.Sound('sons/sair_creditos.wav').play()
-                    pg.time.delay(1000)
-                if arrow_Y == 2:
-                    mixer.Sound('sons/sair_creditos.wav').play()
-                    pg.time.delay(1000)
-                    menu = False
-                    exit_game = True
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                menu = False
+                exit_game = True
+                game_run = False
 
-    # limita a seta
-    if arrow_Y >= 2:
-        arrow_Y = 2
-    if arrow_Y <= 0:
-        arrow_Y = 0
+            if event.type == pg.KEYDOWN:
 
-    pg.display.update()
+                if event.key == pg.K_UP:
+                    mixer.Sound('sons/click_menu.wav').play()
+                    arrow_Y += -1
+                if event.key == pg.K_DOWN:
+                    mixer.Sound('sons/click_menu.wav').play()
+                    arrow_Y += 1
+                if event.key == pg.K_KP_ENTER or event.key == pg.K_RETURN:
+                    if arrow_Y == 0:
+                        mixer.Sound('sons/game_init.wav').play()
+                        pg.time.delay(2000)
+                        menu = False
+                    if arrow_Y == 1:
+                        mixer.Sound('sons/sair_creditos.wav').play()
+                        show_credits = True
+                    if arrow_Y == 2:
+                        mixer.Sound('sons/sair_creditos.wav').play()
+                        pg.time.delay(1000)
+                        menu = False
+                        exit_game = True
+                        game_run = False
 
-# background game music
-mixer.music.load('sons/background_music.mp3')
-mixer.music.set_volume(0.1)
-mixer.music.play(-1)  # o -1 faz tocar em loop
+        while show_credits:
+            screen.blit(menu_credits, (100, 100))
+            for credits_event in pg.event.get():
+                if credits_event.type == pg.KEYDOWN:
+                    show_credits = False
+            pg.display.update()
 
-# game inicia
-running = True
-while running:
+        # limita a seta
+        if arrow_Y >= 2:
+            arrow_Y = 2
+        if arrow_Y <= 0:
+            arrow_Y = 0
 
-    if exit_game:
-        break
+        pg.display.update()
 
-    # RGB
-    screen.fill((0, 0, 128))
+    # background game music
+    mixer.music.load('sons/background_music.mp3')
+    mixer.music.set_volume(0.1)
+    mixer.music.play(-1)  # o -1 faz tocar em loop
 
-    # background image
-    screen.blit(background, (0, 0))
+    # game inicia
+    running = True
+    while running:
 
-    for event in pg.event.get():  # eventos
+        if exit_game:
+            break
 
-        # para sair do loop (fechar o programa) quando clicar no 'X'
-        if event.type == pg.QUIT:
-            running = False
+        # RGB
+        screen.fill((0, 0, 128))
 
-        # se uma tecla é pressionada, verifica a direção e anda nela
-        if event.type == pg.KEYDOWN:
+        # background image
+        screen.blit(background, (0, 0))
 
-            if event.key == pg.K_LEFT:
-                playerX_change = -0.6
-            if event.key == pg.K_RIGHT:
-                playerX_change = 0.6
-            if event.key == pg.K_UP:
-                playerY_change = -0.6
-            if event.key == pg.K_DOWN:
-                playerY_change = 0.6
+        for event in pg.event.get():  # eventos
 
-            if event.key == pg.K_SPACE and seringa_state == "ready":
-                mixer.Sound('sons/disparo_seringa.mp3').play()
-                seringaX, seringaY = playerX, playerY  # 1ª coord é no player
-                seringa_state = "fire"
-                fire_seringa(seringaX, seringaY)
+            # para sair do loop (fechar o programa) quando clicar no 'X'
+            if event.type == pg.QUIT:
+                running = False
+                game_run = False
 
-        # quando deixa de pressionar uma tecla, zera o acrescimo de movimento
-        if event.type == pg.KEYUP:
-            if event.key == pg.K_LEFT or event.key == pg.K_RIGHT:
-                playerX_change = 0
+            # se uma tecla é pressionada, verifica a direção e anda nela
+            if event.type == pg.KEYDOWN:
 
-            if event.key == pg.K_UP or event.key == pg.K_DOWN:
-                playerY_change = 0
+                if event.key == pg.K_LEFT:
+                    playerX_change = -0.6
+                if event.key == pg.K_RIGHT:
+                    playerX_change = 0.6
+                if event.key == pg.K_UP:
+                    playerY_change = -0.6
+                if event.key == pg.K_DOWN:
+                    playerY_change = 0.6
 
-    # movimento objetos
-    cloroquinaX += cloroquinaX_change  # constante!
-    coronavirusX += coronavirusX_change
-    pfizerX += pfizerX_change
-    # não deixa ir ao infinito e além
-    if cloroquinaX <= -60:
-        count_miss_chloroquine += 1
-        cloroquinaX = 1250
-        cloroquinaY = random.randint(52, 536)
-    if coronavirusX <= -60:
-        count_miss_virus += 1
-        coronavirusX = 790
-        coronavirusY = random.randint(52, 536)
-    if pfizerX <= -60:
-        count_missed_letters += 1
-        pfizerX = 1000
-        pfizerY = random.randint(52, 536)
+                if event.key == pg.K_SPACE and seringa_state == "ready":
+                    mixer.Sound('sons/disparo_seringa.mp3').play()
+                    seringaX, seringaY = playerX, playerY  # 1ª coord é no player
+                    seringa_state = "fire"
+                    fire_seringa(seringaX, seringaY)
 
-    # movimento jogador
-    playerX += playerX_change
-    playerY += playerY_change
-    # não deixa o jogador passar das bordas
-    if playerX <= 0:
-        playerX = 1
-    elif playerX >= 736:
-        playerX = 734
-    if playerY >= 536:
-        playerY = 535
-    elif playerY <= 52:
-        playerY = 53
+            # quando deixa de pressionar uma tecla, zera o acrescimo de movimento
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_LEFT or event.key == pg.K_RIGHT:
+                    playerX_change = 0
 
-    # mostra elementos do jogo
+                if event.key == pg.K_UP or event.key == pg.K_DOWN:
+                    playerY_change = 0
+
+        # movimento objetos
+        cloroquinaX += cloroquinaX_change  # constante!
+        coronavirusX += coronavirusX_change
+        pfizerX += pfizerX_change
+        # não deixa ir ao infinito e além
+        if cloroquinaX <= -60:
+            count_miss_chloroquine += 1
+            cloroquinaX = 1250
+            cloroquinaY = random.randint(52, 536)
+        if coronavirusX <= -60:
+            count_miss_virus += 1
+            coronavirusX = 790
+            coronavirusY = random.randint(52, 536)
+        if pfizerX <= -60:
+            count_missed_letters += 1
+            pfizerX = 1000
+            pfizerY = random.randint(52, 536)
+
+        # movimento jogador
+        playerX += playerX_change
+        playerY += playerY_change
+        # não deixa o jogador passar das bordas
+        if playerX <= 0:
+            playerX = 1
+        elif playerX >= 736:
+            playerX = 734
+        if playerY >= 536:
+            playerY = 535
+        elif playerY <= 52:
+            playerY = 53
+
+        # mostra elementos do jogo
+        player(playerX, playerY)
+        cloroquina(cloroquinaX, cloroquinaY)
+        coronavirus(coronavirusX, coronavirusY)
+        pfizer(pfizerX, pfizerY)
+        show_score(textX, textY)
+
+        # movimento da seringa
+        if seringaX >= 800:
+            # seringaX = 800
+            seringa_state = "ready"
+            seringaX = -50
+            seringaY = -50
+        if seringa_state == "fire":
+            fire_seringa(seringaX, seringaY)
+            seringaX += seringaX_change
+
+        # colisão
+        collision = is_collision(cloroquinaX, cloroquinaY, seringaX, seringaY,
+                                 coronavirusX, coronavirusY, pfizerX, pfizerY, playerX, playerY)
+
+        # atirou na cloroquina
+        if collision[0]:
+            mixer.Sound('sons/estouro.mp3').play()
+            seringa_state = "ready"
+            seringaX, seringaY = -100, -100  # vai pra longe
+            score_value += 1
+            cloroquinaX = 1250
+            cloroquinaY = random.randint(52, 536)
+
+        # atirou no coronavirus
+        if collision[1]:
+            mixer.Sound('sons/estouro.mp3').play()
+            seringa_state = "ready"
+            seringaX, seringaY = -100, -100  # vai para longe
+            score_value += 1
+            coronavirusX = random.randint(790, 1250)
+            coronavirusY = random.randint(52, 536)
+
+        # atirou na carta pfizer
+        if collision[2]:
+            count_missed_letters += 1
+            mixer.Sound('sons/estouro.mp3').play()
+            seringa_state = "ready"
+            seringaX, seringaY = -100, -100  # vai para longe
+            pfizerX = random.randint(1000, 1300)
+            pfizerY = random.randint(52, 536)
+
+        # pegou carta pfizer
+        if collision[3]:
+            count_letters += 1
+            which_sound = str(random.randint(0, 9))
+            if which_sound in '0123456':
+                mixer.Sound('sons/pick_letter.wav').play()
+            elif which_sound in '78':
+                mixer.Sound('sons/pfizer.mp3').play()
+            else:
+                mixer.Sound('sons/pfizer ta passada.mp3').play()
+            pfizerX = random.randint(1500, 2000)
+            pfizerY = random.randint(52, 536)
+
+        # pegou a cloroquina
+        if collision[4]:
+            count_chloroquine += 1
+            mixer.Sound('sons/pegou_cloroquina.wav').play()
+            cloroquinaX = random.randint(1500, 2000)
+            cloroquinaY = random.randint(52, 536)
+
+        hearts(textX, textY)  # remove vidas
+
+        # Ze Gotinha pega coronavirus. Game Over.
+        game_over = is_gameover(playerX, playerY, coronavirusX, coronavirusY)
+        if game_over:
+            pg.mixer.music.stop()
+            mixer.Sound('sons/oof.wav').play()
+            game_over_text()
+            pg.display.update()
+            pg.time.delay(500)
+            mixer.Sound('sons/espirro_mascara.wav').play()
+            pg.time.delay(3000)
+            break
+
+        # 10 cartas coletadas, sem deixar nada passar
+        if count_miss_chloroquine + count_miss_virus + \
+                count_missed_letters == 0 and count_letters >= 10:
+            pg.mixer.music.stop()
+            mixer.Sound('sons/palmas.wav').play()
+            best_end_game()
+            pg.display.update()
+            pg.time.delay(8000)
+            break
+
+        # 3 caixas de cloroquina coletadas, Zé Gotinha adquire hepatite medicamentosa.
+        if count_chloroquine == 3:
+            pg.mixer.music.stop()
+            game_over_text()
+            pg.display.update()
+            pg.time.delay(500)  # delay do dano
+            mixer.Sound('sons/cloroquinado.wav').play()
+            pg.time.delay(4000)
+            break
+
+        # 10 cartas coletadas, passam virus e/ou caixas.
+        if count_miss_chloroquine + count_miss_virus != 0 and count_letters >= 10:
+            pg.mixer.music.stop()
+            mixer.Sound('sons/yay.wav').play()
+            medium_end_game()
+            pg.display.update()
+            pg.time.delay(8000)
+            break
+
+        pg.display.update()  # atualiza o frame
+
+    # reseta tudo para um novo jogo
     player(playerX, playerY)
     cloroquina(cloroquinaX, cloroquinaY)
     coronavirus(coronavirusX, coronavirusY)
     pfizer(pfizerX, pfizerY)
-    show_score(textX, textY)
-
-    # movimento da seringa
-    if seringaX >= 800:
-        # seringaX = 800
-        seringa_state = "ready"
-        seringaX = -50
-        seringaY = -50
-    if seringa_state == "fire":
-        fire_seringa(seringaX, seringaY)
-        seringaX += seringaX_change
-
-    # colisão
-    collision = is_collision(cloroquinaX, cloroquinaY, seringaX, seringaY,
-                             coronavirusX, coronavirusY, pfizerX, pfizerY, playerX, playerY)
-
-    # atirou na cloroquina
-    if collision[0]:
-        mixer.Sound('sons/estouro.mp3').play()
-        seringa_state = "ready"
-        seringaX, seringaY = -100, -100  # vai pra longe
-        score_value += 1
-        cloroquinaX = 1250
-        cloroquinaY = random.randint(52, 536)
-
-    # atirou no coronavirus
-    if collision[1]:
-        mixer.Sound('sons/estouro.mp3').play()
-        seringa_state = "ready"
-        seringaX, seringaY = -100, -100  # vai para longe
-        score_value += 1
-        coronavirusX = random.randint(790, 1250)
-        coronavirusY = random.randint(52, 536)
-
-    # atirou na carta pfizer
-    if collision[2]:
-        count_missed_letters += 1
-        mixer.Sound('sons/estouro.mp3').play()
-        seringa_state = "ready"
-        seringaX, seringaY = -100, -100  # vai para longe
-        pfizerX = random.randint(1000, 1300)
-        pfizerY = random.randint(52, 536)
-
-    # pegou carta pfizer
-    if collision[3]:
-        count_letters += 1
-        which_sound = str(random.randint(0, 9))
-        if which_sound in '0123456':
-            mixer.Sound('sons/pick_letter.wav').play()
-        elif which_sound in '78':
-            mixer.Sound('sons/pfizer.mp3').play()
-        else:
-            mixer.Sound('sons/pfizer ta passada.mp3').play()
-        pfizerX = random.randint(1500, 2000)
-        pfizerY = random.randint(52, 536)
-
-    # pegou a cloroquina
-    if collision[4]:
-        count_chloroquine += 1
-        mixer.Sound('sons/pegou_cloroquina.wav').play()
-        cloroquinaX = random.randint(1500, 2000)
-        cloroquinaY = random.randint(52, 536)
-
-    hearts(textX, textY)  # remove vidas
-
-    # Ze Gotinha pega coronavirus. Game Over.
-    game_over = is_gameover(playerX, playerY, coronavirusX, coronavirusY)
-    if game_over:
-        pg.mixer.music.stop()
-        mixer.Sound('sons/oof.wav').play()
-        game_over_text()
-        pg.display.update()
-        pg.time.delay(500)
-        mixer.Sound('sons/espirro_mascara.wav').play()
-        pg.time.delay(3000)
-        break
-
-    # 10 cartas coletadas, sem deixar nada passar
-    if count_miss_chloroquine + count_miss_virus + \
-            count_missed_letters == 0 and count_letters >= 10:
-        pg.mixer.music.stop()
-        mixer.Sound('sons/palmas.wav').play()
-        best_end_game()
-        pg.display.update()
-        pg.time.delay(8000)
-        break
-
-    # 3 caixas de cloroquina coletadas, Zé Gotinha adquire hepatite medicamentosa.
-    if count_chloroquine == 3:
-        pg.mixer.music.stop()
-        game_over_text()
-        pg.display.update()
-        pg.time.delay(500)  # delay do dano
-        mixer.Sound('sons/cloroquinado.wav').play()
-        pg.time.delay(8000)
-        break
-
-    # 10 cartas coletadas, passam virus e/ou caixas.
-    if count_miss_chloroquine + count_miss_virus != 0 and count_letters >= 10:
-        pg.mixer.music.stop()
-        mixer.Sound('sons/yay.wav').play()
-        medium_end_game()
-        pg.display.update()
-        pg.time.delay(8000)
-        break
-
-    pg.display.update()  # atualiza o frame
