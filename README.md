@@ -36,8 +36,6 @@ Avoid the coronaviruses and the chloroquine boxes and destroy them! Get the Pfiz
 
 :microscope: :syringe: Let's save Brazil from the pandemic with science and vaccines! :syringe: :microscope:
 
-![output-onlinegiftools](https://user-images.githubusercontent.com/84260370/131886917-f358cc85-b9ba-4617-9a07-fcbea105ff32.gif)
-
 ---
 
 ## Controls:
@@ -54,11 +52,8 @@ I will improve it over time, so, keep tuned for updates! :wink:
 ---
 ---
 ---
-## Lembre-se / Remember: :point_down:
 
-![man-got-vaccinated](https://user-images.githubusercontent.com/84260370/131877297-1ac4560d-ebf8-45a9-8aa9-d4974161744a.jpeg)
-
-<p style="color:blue;font-size:8px;">Photo: <a href="https://foto.wuestenigel.com/a-man-got-vaccinated/" target="_blank">A man got vaccinated</a> by <a href="https://linktr.ee/wuestenigel" target="_blank">Marco Verch</a> under <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank">Creative Commons 2.0</a></p>
+![vacinese](https://user-images.githubusercontent.com/84260370/132105874-c130be2d-920c-49f7-92cb-c099c360bc47.png)
 
 ---
 
