@@ -14,7 +14,7 @@ background = pg.image.load('imagens/brasilia2.jpg')
 # menu do jogo
 menu_image = pg.image.load('imagens/menu.jpeg')
 menu_arrow = pg.image.load('imagens/menu_seta.png')
-menu_credits = pg.image.load('imagens/creditos.jpeg')
+menu_about = pg.image.load('imagens/sobre.jpeg')
 
 # imagens auxiliares
 quadro_fundo = pg.image.load('imagens/quadro_fundo.jpg')
@@ -249,7 +249,7 @@ while game_run:
     # menu inicial
     exit_game = False
     menu = True
-    show_credits = False
+    show_about = False
     while menu:
         screen.fill((255, 255, 255))
         screen.blit(menu_image, (0, 0))
@@ -282,7 +282,7 @@ while game_run:
                         menu = False
                     if arrow_Y == 1:
                         mixer.Sound('sons/sair_creditos.wav').play()
-                        show_credits = True
+                        show_about = True
                     if arrow_Y == 2:
                         mixer.Sound('sons/sair_creditos.wav').play()
                         pg.time.delay(1000)
@@ -290,11 +290,12 @@ while game_run:
                         exit_game = True
                         game_run = False
 
-        while show_credits:
-            screen.blit(menu_credits, (100, 100))
-            for credits_event in pg.event.get():
-                if credits_event.type == pg.KEYDOWN:
-                    show_credits = False
+        # Menu Sobre
+        while show_about:
+            screen.blit(menu_about, (100, 100))
+            for about_event in pg.event.get():
+                if about_event.type == pg.KEYDOWN:
+                    show_about = False
             pg.display.update()
 
         # limita a seta
