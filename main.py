@@ -440,9 +440,9 @@ while game_run:
         if collision[3]:
             count_letters += 1
             which_sound = str(random.randint(0, 9))
-            if which_sound in '0123456':
+            if which_sound in '01234567':
                 mixer.Sound('sons/pick_letter.wav').play()
-            elif which_sound in '78':
+            elif which_sound in '8':
                 mixer.Sound('sons/pfizer.mp3').play()
             else:
                 mixer.Sound('sons/pfizer ta passada.mp3').play()
@@ -471,8 +471,7 @@ while game_run:
             break
 
         # 10 cartas coletadas, sem deixar nada passar
-        if count_miss_chloroquine + count_miss_virus + \
-                count_missed_letters == 0 and count_letters >= 10:
+        if count_miss_chloroquine + count_miss_virus == 0 and count_letters >= 10:
             pg.mixer.music.stop()
             mixer.Sound('sons/palmas.wav').play()
             best_end_game()
@@ -500,9 +499,3 @@ while game_run:
             break
 
         pg.display.update()  # atualiza o frame
-
-    # reseta tudo para um novo jogo
-    player(playerX, playerY)
-    cloroquina(cloroquinaX, cloroquinaY)
-    coronavirus(coronavirusX, coronavirusY)
-    pfizer(pfizerX, pfizerY)
