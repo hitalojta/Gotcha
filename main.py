@@ -117,10 +117,10 @@ def show_score(x, y):
     chloroquine_pass = passed_font.render(f"Caixas passadas: {str(count_miss_chloroquine)}", True,
                                           (204, 204, 0))
     screen.blit(score, (x, y))
-    screen.blit(virus_pass, (x + 320, y))
-    screen.blit(letter_pass, (x + 150, y))
-    screen.blit(letter_get, (x + 150, y + 20))
-    screen.blit(chloroquine_pass, (x + 320, y + 20))
+    screen.blit(virus_pass, (x + 370, y))
+    screen.blit(letter_pass, (x + 200, y))
+    screen.blit(letter_get, (x + 200, y + 20))
+    screen.blit(chloroquine_pass, (x + 370, y + 20))
 
 
 def game_over_text():
