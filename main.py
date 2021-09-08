@@ -49,14 +49,14 @@ pfizerImg = pg.image.load('imagens/carta-pfizer.png')
 # Score
 textX = 10
 textY = 10
-font = pg.font.Font('freesansbold.ttf', 32)
+font = pg.font.Font('font/Roboto-Medium.ttf', 32)
 
 # Virus and chloroquine passed count
-passed_font = pg.font.Font('freesansbold.ttf', 14)
+passed_font = pg.font.Font('font/Roboto-Medium.ttf', 14)
 
 # Texts Game Over
-big_over_font = pg.font.Font('freesansbold.ttf', 64)
-small_over_font = pg.font.Font('freesansbold.ttf', 16)
+big_over_font = pg.font.Font('font/Roboto-Medium.ttf', 64)
+small_over_font = pg.font.Font('font/Roboto-Medium.ttf', 16)
 
 
 def new_game():
