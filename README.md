@@ -25,6 +25,8 @@ Um jogo simples desenvolvido por mim [hitalojta](https://github.com/hitalojta) u
 
 Eu vou melhorá-lo com o passar do tempo, então, fique ligado sobre novos updates! :wink:
 
+### OBS: Para jogá-lo sem utilizar uma IDE, baixe o arquivo zip [nessa pasta](https://github.com/hitalojta/Gotcha/tree/master/(Jogo%20Executavel)), descompacte os arquivos e execute o arquivo *Gotcha.exe*
+
 ---
 ---
 ---
@@ -50,6 +52,8 @@ Avoid and eliminate the coronaviruses and the chloroquine boxes! Get the Pfizer 
 A simple game developed by me [hitalojta](https://github.com/hitalojta) using Python and the pygame library. The objective was to learn how to make a game and try to contextualize it with the current situation (pandemic) that we are facing. Hope you like the game! Have fun! :blush:
 
 I will improve it over time, so, keep tuned for updates! :wink:
+
+### NOTE: To play it without using an IDE, download the zip file [in this folder](https://github.com/hitalojta/Gotcha/tree/master/(Jogo%20Executavel)), unzip the files and run the *Gotcha.exe* file
 
 ---
 ---
