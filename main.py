@@ -5,6 +5,7 @@ from math import sqrt
 
 # initialize the pygame
 pg.init()
+# clock = pg.time.Clock()
 
 screen = pg.display.set_mode((800, 600))
 
@@ -314,6 +315,8 @@ while game_run:
     # game inicia
     running = True
     while running:
+
+        # clock.tick(30)
 
         if exit_game:
             break
